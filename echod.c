@@ -47,23 +47,24 @@ main(int argc, char const *argv[])
         printf("Error when listening\n");
         return -1;
     }
-    // construct address to write client address
-    // after accepting the socket
-    memset(&their_address, 0, sizeof their_address);
     
-    // wait until receive requests from client
-    server_in_size = sizeof their_address;
-    client = accept(socket_server, (struct sockaddr *)&their_address, &server_in_size);
-    if (client == -1) {
-        printf("Error when accepting\n");
-        return -1;
-    }
     // fork, echo
     if (!fork()) {
         // drop privilege
         printf("Before privilege separation: %d\n",geteuid());
         printf("%d\n",seteuid(501));
         printf("After privilege separation: %d\n",geteuid());
+        // construct address to write client address
+        // after accepting the socket
+        memset(&their_address, 0, sizeof their_address);
+        
+        // wait until receive requests from client
+        server_in_size = sizeof their_address;
+        client = accept(socket_server, (struct sockaddr *)&their_address, &server_in_size);
+        if (client == -1) {
+            printf("Error when accepting\n");
+            return -1;
+        }
         close(socket_server);
         socket_server = -1;
         for (;;) {
