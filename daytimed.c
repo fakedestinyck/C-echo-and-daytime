@@ -1,3 +1,4 @@
+#define _GNU_SOURCE /* for tm_gmtoff and tm_zone */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -26,6 +27,7 @@ main(int argc, char const *argv[])
     int client;
     int yes = 1;
     time_t now;
+    struct tm lt = {0};
     // create a server
     socket_server = socket(AF_INET, SOCK_STREAM, 0); // AF_INET Internet network address
     if (socket_server == -1) {
@@ -58,6 +60,7 @@ main(int argc, char const *argv[])
         printf("%d\n",seteuid(501));
         printf("After privilege separation: %d\n",geteuid());
         for (;;) {
+            char buffer[MAXSIZE] = {0};
             // construct address to write client address
             // after accepting the socket
             memset(&their_address, 0, sizeof their_address);
@@ -69,10 +72,15 @@ main(int argc, char const *argv[])
                 printf("Error when accepting\n");
                 return -1;
             }
-            printf("success\n");
+            
+            // deal with time string
             now = time(NULL);
-            char buffer[MAXSIZE] = {0};
-            snprintf(buffer, sizeof buffer, "%.24s\r\n", ctime(&now));
+            localtime_r(&now, &lt);
+            strftime(buffer, sizeof buffer, "%A, %B %d, %Y %X-", localtime(&now));
+            char *tmz = lt.tm_zone;
+            tmz[3] = '\n';
+            tmz[4] = '\0';
+            strlcat(buffer, tmz, MAXSIZE);
             write(client, buffer, strlen(buffer));
             close(client);
             client = -1;
