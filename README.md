@@ -14,7 +14,7 @@ echod -- TCP based echo service daemon
 
 echod is a network daemon listens for TCP connections on TCP port 7.  Once a connection is established any data received is sent back.  This
    continues until the calling user terminates the connection.
-   ([reference])(https://tools.ietf.org/html/rfc862)
+   ([reference](https://tools.ietf.org/html/rfc862))
    
 echod listens on port 7. It uses `fork()` to create a child process, and use `seteuid` to drop privilege.
 Then it accepts incoming traffic and sends back no matter what it receives from the client.
@@ -59,7 +59,7 @@ daytimed -- TCP based daytime service daemon
 **DESCRIPTION**
 
 daytimed is a network daemon listens for TCP connections on TCP port 13.  Once a
-   a connection is established the current date and time is sent out the connection as an ASCII character string (and any data received is thrown away).  The service closes the connection after sending the quote. ([reference])(https://tools.ietf.org/html/rfc867)
+   a connection is established the current date and time is sent out the connection as an ASCII character string (and any data received is thrown away).  The service closes the connection after sending the quote. ([reference](https://tools.ietf.org/html/rfc867))
    
    
 daytimed listens on port 13. It uses `fork()` to create a child process, and use `seteuid` to drop privilege.
