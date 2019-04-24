@@ -1,5 +1,5 @@
 # C echo and daytime
-This is the secure coding project for RPI ITWS4370
+This is the secure coding project for RPI ITWS4370.
 
 
 # Manual
