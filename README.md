@@ -20,6 +20,8 @@ Echod is a network daemon listens for TCP connections on TCP port 7.  Once a
 echod listens on port 7. It uses `fork()` to create a child process, and use `seteuid` to drop privilege.
 Then it accpets in coming trafic, and sends back no matter what it receives from the client.
 
+If the client drop the connection by sending `q`, the server will terminate the connection from the server side as well. 
+
 
 **NOTE**
 
@@ -34,7 +36,7 @@ echo -- TCP based echo service slient
 
 **Usage**
 
-`echo <hostname>
+`echo <hostname>`
 
 **DESCRIPTION**
 
@@ -45,4 +47,6 @@ The timeout is set to 5 seconds. If the connection could not be established, it 
 I refer to the code [here](https://blog.csdn.net/chenyulancn/article/details/52371873) when implementing the timeout feature.
 
 Once the connection is established, user can send string to the server, and will get the same string back from the server.
+
+Sending `q` to the server will let server to drop the connection from the client. Client will also drop the connection from the server.
 
